@@ -1,6 +1,6 @@
 <?php
 
-if($_SERVER['SERVER_NAME'] == 'localhost:70'){
+if($_SERVER['SERVER_NAME'] == 'localhost'){
     require __DIR__. "/Minify.php";
 }
 
@@ -9,14 +9,14 @@ if($_SERVER['SERVER_NAME'] == 'localhost:70'){
         "desc"=> "Login com Facebook e Google são uma das possibilidades de autenticação",
         "domain"=> "localauth.com",
         "locale"=> "pt_BR",
-        "root"=> "http://localhost:70/codigoaberto/t1/"
+        "root"=> "http://localhost:70/codigoaberto/t1"
     ]);
 
        //CONEXÃO COM O BANCO DE DADOS
 
        define("DATA_LAYER_CONFIG", [
         "driver" => "mysql",
-        "host" => "localhost:70",
+        "host" => "localhost",
         "port" => "3306",
         "dbname" => "auth",
         "username" => "root",

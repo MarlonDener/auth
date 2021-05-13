@@ -8,11 +8,8 @@
 
     <?= $head; ?>
 
-    <link rel="stylesheet" href="<?= asset("/css/style.css"); ?>"/>
-    <link rel="stylesheet" href="<?= asset("/css/form.css"); ?>"/>
-    <link rel="stylesheet" href="<?= asset("/css/button.css"); ?>"/>
-    <link rel="stylesheet" href="<?= asset("/css/message.css"); ?>"/>
-    <link rel="stylesheet" href="<?= asset("/css/load.css"); ?>"/>
+    <!--Importando o estilo usando Minify-->
+    <link rel="stylesheet" href="<?= asset("/style.min.css"); ?>"/>
     <link rel="icon" type="image/png" href="<?= asset("/images/favicon.png"); ?>"/>
 </head>
 <body>

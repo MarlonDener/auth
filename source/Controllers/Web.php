@@ -8,9 +8,8 @@
         public function __construct($router)
         {
             parent::__construct($router);
-            $_SESSION['user'] = "teste";
-           if(!isset($_SESSION["user"])){
-               echo 'ok';
+           if(!empty($_SESSION["user"])){
+              $this->router->redirect("app.home");
             }
         }
 
