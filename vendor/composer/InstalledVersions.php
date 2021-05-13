@@ -27,12 +27,12 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'f619bd6395a41d9aa094881bfb4d6bf2a7a6d34b',
     'name' => 'marlondener/authphp',
   ),
   'versions' => 
@@ -57,12 +57,12 @@ private static $installed = array (
     ),
     'coffeecode/router' => 
     array (
-      'pretty_version' => '1.0.7',
-      'version' => '1.0.7.0',
+      'pretty_version' => '1.0.8',
+      'version' => '1.0.8.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e3b94f72bc389e8b97d82a0fd0e5bff743e51667',
+      'reference' => '29f73e12351a116e9bbb3f695595777a09e18077',
     ),
     'guzzlehttp/guzzle' => 
     array (
@@ -129,12 +129,12 @@ private static $installed = array (
     ),
     'marlondener/authphp' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'f619bd6395a41d9aa094881bfb4d6bf2a7a6d34b',
     ),
     'matthiasmullie/minify' => 
     array (

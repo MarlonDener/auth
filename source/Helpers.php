@@ -1,11 +1,19 @@
 <?php
 
+
 function site(string $param = null){
     if($param && !empty(SITE[$param])){
         return SITE[$param];
     }
 
     return SITE['root'];
+}
+
+//rotornar imagem de acordo com a rota
+
+function routeImage(string $imageUrl)
+{
+    return "http://via.placeholder.com/1220x628/231bb5/FFF?text={$imageUrl}";
 }
 
 
