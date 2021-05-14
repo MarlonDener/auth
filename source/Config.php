@@ -6,21 +6,22 @@ if($_SERVER['SERVER_NAME'] == 'localhost'){
 
     // CONEXÃO COM EMAIL
 
+  
     define("MAIL",[
-        "host"=>"smtp.sendgrid.net",
-        "port" => "587",
-        "user"=> "apikey",
-        "passwd" => "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",
-        "from_name"=>"Marlon Dener",
-        "from_email"=>"m.dener01@uni9.edu.br"
+        "host"=>"host",
+        "port" => "port",
+        "user"=> "key",
+        "passwd" => "seu password",
+        "from_name"=>"Nome",
+        "from_email"=>"emaiç"
     ]);
 
     define("SITE",[
         "name"=> "AUTH em MVC",
         "desc"=> "Login com Facebook e Google são uma das possibilidades de autenticação",
-        "domain"=> "localauth.com",
+        "domain"=> "----",
         "locale"=> "pt_BR",
-        "root"=> "http://localhost:70/codigoaberto/t1"
+        "root"=> "-----"
     ]);
 
        //CONEXÃO COM O BANCO DE DADOS
