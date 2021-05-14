@@ -10,7 +10,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost'){
         "host"=>"---------",
         "port" => "---",
         "user"=> "------",
-        "passwd" => "-----------------",
+        "passwd" => "------------------",
         "from_name"=>"-----------",
         "from_email"=>"--------"
     ]);
