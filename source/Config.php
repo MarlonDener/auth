@@ -4,6 +4,17 @@ if($_SERVER['SERVER_NAME'] == 'localhost'){
     require __DIR__. "/Minify.php";
 }
 
+    // CONEXÃO COM EMAIL
+
+    define("MAIL",[
+        "host"=>"smtp.sendgrid.net",
+        "port" => "587",
+        "user"=> "apikey",
+        "passwd" => "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",
+        "from_name"=>"Marlon Dener",
+        "from_email"=>"m.dener01@uni9.edu.br"
+    ]);
+
     define("SITE",[
         "name"=> "AUTH em MVC",
         "desc"=> "Login com Facebook e Google são uma das possibilidades de autenticação",
@@ -37,7 +48,6 @@ if($_SERVER['SERVER_NAME'] == 'localhost'){
         "twitter_creator"=>"@MarlonDener"
     ]);
 
-    define("MAIL", ["EMAIL"=>"email"]);
     
     define("FACEBOOK_LOGIN", ["EMAIL"=>"email"]);
     

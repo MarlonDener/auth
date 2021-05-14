@@ -2,6 +2,8 @@
 
     namespace Source\Controllers;
 
+    use Source\Models\User;
+
     class Web extends Controller
     {
 
@@ -61,7 +63,33 @@
                "head"=>$head 
             ]);
         }
-        public function reset($data){
+
+        public function reset($data) : variant_round{
+
+            if(empty($_SESSION["forget"])){
+                flash("info", "Informe o seu E-mail para recuperar a senha");
+                $this->router->redirect("web.forget");
+            }
+            //se caso for vazio os dados do banco, não vai ser possivel recuperar
+            
+            $email = filter_var($data["email"], FILTER_VALIDATE_EMAIL);
+            $forget = filter_var($data["forget"], FILTER_DEFAULT);
+            
+            
+            if(!$email || !$forget){
+
+                flash("error", "Erro ao recuperar, tente novamente");
+                $this->router->redirect("web.forget");
+            }
+            //BUSCAR DADOS NO BANCO DE DADOS 
+
+            $user = (new User())->find("email = :e AND forget = :f", "e={$email}&f={$forget}")->fetch();
+            
+            if(!$user)
+            {
+                flash("error", "Erro ao recuperar, tente novamente");
+                $this->router->redirect("web.forget");
+            }
               
             $head = $this->seo->optimize(
                 "Crie sua nova senha ". site("name"),
@@ -90,6 +118,7 @@
            "head"=>$head,
            "error"=> $error
         ]);
+        return;
         }
 
     }

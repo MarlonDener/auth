@@ -12,6 +12,7 @@
         }
 
         //salvar
+        /*
 
         public function save() : bool
         {
@@ -62,6 +63,7 @@
             $this->passwd = password_hash($this->passwd, PASSWORD_DEFAULT);
             return true;
         }
+        */
 
 
     }

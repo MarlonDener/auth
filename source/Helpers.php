@@ -32,7 +32,7 @@ function flash(string $type = null, string $message = null){
     if($type && $message){
         $_SESSION["flash"] = [
             "type" => $type,
-            "messagem"=> $message
+            "message"=> $message
         ];
         return null;
     }

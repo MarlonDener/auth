@@ -24,7 +24,18 @@
 
         public function home() : void
         {
-            var_dump($this->user);
+            $head = $this->seo->optimize(
+                "Bem-vindo(a) {$this->user->first_name} ". site("name"),
+                site("desc"),
+                $this->router->route("app.home"),
+                routeImage("Conta da {$this->user->first_name}")
+            )->render();
+            //render tranforma todo o objeto em uma string
+
+            echo $this->view->render("theme/dashboard",[
+               "head"=>$head,
+               "user"=>$this->user 
+            ]);
         }
 
         
