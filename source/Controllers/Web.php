@@ -75,6 +75,7 @@
             ]);
         }
 
+        
         public function reset($data) : variant_round{
 
             if(empty($_SESSION["forget"])){
