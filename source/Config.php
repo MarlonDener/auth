@@ -7,10 +7,10 @@ if($_SERVER['SERVER_NAME'] == 'localhost'){
     // CONEXÃO COM EMAIL
 
     define("MAIL",[
-        "host"=>"smtp.sendgrid.net",
+        "host"=>"seu host de email",
         "port" => "587",
         "user"=> "apikey",
-        "passwd" => "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",
+        "passwd" => "sua chave de email",
         
         "from_name"=>"Marlon Dener",
         "from_email"=>"m.dener01@uni9.edu.br"
@@ -54,8 +54,8 @@ if($_SERVER['SERVER_NAME'] == 'localhost'){
     
     define("GOOGLE_LOGIN", [
 
-        "clientId" => "256967037372-14q71cf7ipfnimedddobtm7nc66ac2j1.apps.googleusercontent.com",
-        "clientSecret"=> "RXWvnQQ12Mw7cELzi-zxlN0J",
+        "clientId" => "Seu id do google",
+        "clientSecret"=> "seu secret",
         "redirectUri" => SITE["root"]."/google",
         
 

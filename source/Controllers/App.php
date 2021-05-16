@@ -18,7 +18,6 @@
                     $this->router->redirect("web.login");
 
                 }
-                var_dump($_SESSION["user"]);
             
         }
 

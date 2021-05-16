@@ -45,6 +45,8 @@ class Auth extends Controller
             ]);
             return;
         }
+        //social validate
+        $this->socialValidate($user);
 
         $_SESSION["user"] = $user->id;
         echo $this->ajaxResponse("redirect", ["url"=>$this->router->route("app.home")]);
@@ -103,6 +105,7 @@ class Auth extends Controller
         $user->email = $data["email"];
         $user->passwd = password_hash($data["passwd"], PASSWORD_DEFAULT);
 
+        $this->socialValidate($user);
 
          //Atenção com essa função aqui   
         if(!$user->save()){
@@ -243,10 +246,10 @@ class Auth extends Controller
     {   //JA ENTRA CONFIGURANDO OS DADOS INFORMADOS NO CONFIG
 
         $facebook = new \League\OAuth2\Client\Provider\Facebook([
-            'clientId'          => '1423847861285311',
-            'clientSecret'      => 'b68faab1d27441101ee15614260cebc6',
+            'clientId'          => 'seu id',
+            'clientSecret'      => 'seu secret',
             'redirectUri'       => 'http://localhost:70/codigoaberto/t1/facebook',
-            'graphApiVersion'   => 'v10.0',
+            'graphApiVersion'   => 'version',
         ]);
         $error = filter_input(INPUT_GET, "error", FILTER_SANITIZE_STRIPPED);
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRIPPED);
@@ -275,13 +278,131 @@ class Auth extends Controller
                 //Serialize, leva junto o objeto na aplicação, cria uma espécia de memória no PHP, que assim consigo acessar o objeto
 
             }catch(\Exception $exception){
-                flash("error","Não foi possível logar com o Facebook");
+                flash("error","Nãoo foi possível logar com o Facebook");
+               
             }
         }
         /** $facebook_user FacebookUser */
 
         //Para usar o objeto SERIALIZE gerado aqui em baixo
         $facebook_user = unserialize($_SESSION["facebook_auth"]);
+        //verifica se existe o usuario
+        $user_by_id = (new User())->find("facebook_id = :id", "id={$facebook_user->getId()}")->fetch();
+        if($user_by_id){
+            unset($_SESSION["facebook_auth"]);
+            $_SESSION["user"] = $user_by_id->id;
+            $this->router->redirect("app.home");
+        }
+
+        //LOGIN POR E-MAIL
+        $user_by_email = (new User())->find("email = :e", "e={$facebook_user->getEmail()}");
+
+        if($user_by_email)
+        {
+            flash("info", "Olá {$facebook_user->getFirstName()}, faça login para conectar");
+            $this->router->redirect("web.register");
+        }
+        //REGISTRAR SE NÃO EXISTE
+        
+        $link = $this->router-route("web.login");
+        flash("info", "Olá {$facebook_user->getFirstName()}, <b>Se já tem uma conta clique em <a href='{$link}' title='fazer login'></a>fazer login, ou completo o seu cadastro</b>");
+        $this->router->redirect("web.register");
+
+
     }
+
+    public function google() : void 
+    {
+        $google = new \League\OAuth2\Client\Provider\Google(GOOGLE_LOGIN);
+        $error = filter_input(INPUT_GET, "error", FILTER_SANITIZE_STRIPPED);
+        $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRIPPED);
+
+        //se eu não tiver uma intereção eu automaticamente gero um URL e redireciono
+        if(!$error && !$code)
+        {
+            $auth_url = $google->getAuthorizationUrl();
+            header("Location: {$auth_url}");
+            return;
+        }
+
+        if($error)
+        {
+            flash("error","Não foi possível logar com o Google");
+            $this->router->redirect("web.login");
+        }
+        //eu recebi o codigo e não abrir a sessão ainda
+        if($code && empty($_SESSION["google_auth"]))
+        {
+            try{
+                  //Pega o código de autorização e vai gerar um Token  
+                $token = $google->getAccessToken("authorization_code", ["code" => $code]);
+                //Armazena um objeto serializado para usar em outra função  
+                $_SESSION["google_auth"] = serialize($google->getResourceOwner($token)); 
+                //Serialize, leva junto o objeto na aplicação, cria uma espécia de memória no PHP, que assim consigo acessar o objeto
+
+            }catch(\Exception $exception){
+                flash("error","Não foi possível logar com o Google");
+               
+            }
+        }
+        /** $facebook_user FacebookUser */
+
+        //Para usar o objeto SERIALIZE gerado aqui em baixo
+        $google_user = unserialize($_SESSION["google_auth"]);
+        //verifica se existe o usuario
+        $user_by_id = (new User())->find("google_id = :id", "id={$google_user->getId()}")->fetch();
+        if($user_by_id){
+            unset($_SESSION["google_auth"]);
+            $_SESSION["user"] = $user_by_id->id;
+            $this->router->redirect("app.home");
+        }
+
+        //LOGIN POR E-MAIL
+        $user_by_email = (new User())->find("email = :e", "e={$google_user->getEmail()}");
+
+        if($user_by_email)
+        {
+            flash("info", "Olá {$google_user->getFirstName()}, você ja tem uma conta aqui, informe seu login para sicronizar a sua conta com o seu gmail");
+            $this->router->redirect("web.login");
+        }
+        //REGISTRAR SE NÃO EXISTE
+        
+        $link = $this->router-route("web.login");
+        flash("info", "Olá {$google_user->getFirstName()}, <b>Se já tem uma conta clique em <a href='{$link}' title='fazer login'></a>fazer login, ou completo o seu cadastro</b>");
+        $this->router->redirect("web.register");
+
+
+    }
+    
+
+    public function socialValidate($user) : void 
+    {
+         //FACEBOOK   
+
+        if(!empty($_SESSION["facebook_auth"]))
+        {
+            $facebook_user = unserialize($_SESSION["facebook_auth"]);
+
+            $user->facebook_id = $facebook_user->getId();
+            $user->photo = $facebook_user->getPictureUrl();
+            $user->save();
+
+            unset($_SESSION["facebook_auth"]);
+        }
+        
+        //GOOGLE
+
+        if(!empty($_SESSION["google_auth"]))
+        {
+            $google_user = unserialize($_SESSION["google_auth"]);
+
+            $user->google_id = $google_user->getId();
+            $user->photo = $google_user->getAvatar();
+            $user->save();
+
+            unset($_SESSION["google_auth"]);
+        }
+    }
+
 }
 ?>
