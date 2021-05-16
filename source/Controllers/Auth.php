@@ -4,8 +4,14 @@
 
 
 namespace Source\Controllers;
+
+//Use League\OAuth2\Client\Provider\Facebook;
+Use League\OAuth2\Client\Provider\FacebookUser;
+
 use Source\Models\User;
 use Source\Support\Email;
+
+
 
 class Auth extends Controller
 {
@@ -230,10 +236,52 @@ class Auth extends Controller
             "url" => $this->router->route("web.login")
         ]);
             
-      
-        
-
-    }
     
+    }
+    //LOGIN COM O FACEBOOK
+    public function facebook():void
+    {   //JA ENTRA CONFIGURANDO OS DADOS INFORMADOS NO CONFIG
+
+        $facebook = new \League\OAuth2\Client\Provider\Facebook([
+            'clientId'          => '1423847861285311',
+            'clientSecret'      => 'b68faab1d27441101ee15614260cebc6',
+            'redirectUri'       => 'http://localhost:70/codigoaberto/t1/facebook',
+            'graphApiVersion'   => 'v10.0',
+        ]);
+        $error = filter_input(INPUT_GET, "error", FILTER_SANITIZE_STRIPPED);
+        $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRIPPED);
+
+        //se eu não tiver uma intereção eu automaticamente gero um URL e redireciono
+        if(!$error && !$code)
+        {
+            $auth_url = $facebook->getAuthorizationUrl(["scope" => "email"]);
+            header("Location: {$auth_url}");
+            return;
+        }
+
+        if($error)
+        {
+            flash("error","Não foi possível logar com o Facebook");
+            $this->router->redirect("web.login");
+        }
+        //eu recebi o codigo e não abrir a sessão ainda
+        if($code && empty($_SESSION["facebook_auth"]))
+        {
+            try{
+                  //Pega o código de autorização e vai gerar um Token  
+                $token = $facebook->getAccessToken("authorization_code", ["code" => $code]);
+                //Armazena um objeto serializado para usar em outra função  
+                $_SESSION["facebook_auth"] = serialize($facebook->getResourceOwner($token)); 
+                //Serialize, leva junto o objeto na aplicação, cria uma espécia de memória no PHP, que assim consigo acessar o objeto
+
+            }catch(\Exception $exception){
+                flash("error","Não foi possível logar com o Facebook");
+            }
+        }
+        /** $facebook_user FacebookUser */
+
+        //Para usar o objeto SERIALIZE gerado aqui em baixo
+        $facebook_user = unserialize($_SESSION["facebook_auth"]);
+    }
 }
 ?>

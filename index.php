@@ -29,7 +29,11 @@ $router->post("/register", "Auth:register", "auth.register");
 $router->post("/forget", "Auth:forget", "auth.forget");
 $router->post("/reset", "Auth:reset", "auth.reset");
 
+//AUTH SOCIAL
 
+$router->group(null);
+$router->get("/facebook", "Auth:facebook", "auth.facebook");
+$router->get("/google", "Auth:google", "auth.google");
 
 //PROFILE
 
