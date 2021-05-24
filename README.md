@@ -1,6 +1,12 @@
 <h2>Autenticação completa</h2>
 
-Um sistema completo de login, são as possibilidades, logar com o Facebook, Google e também o sistema de recuperação de senha, enviando mensagem para o email da pessoa para cadastrar a nova senha desejada, um sistema muito completo e seguro para uma aplicação Web.
+Um sistema completo de login, são as possibilidades:
+<li>logar com o Facebook</li>
+<li> Google </li>
+<li>e recuperação de senha, enviando mensagem para o email da pessoa para cadastrar a nova senha desejada</li>
+
+
+um sistema de login muito completo e seguro para uma aplicação Web.
 
 
 
