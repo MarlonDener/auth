@@ -7,5 +7,5 @@ Um sistema completo de login, são as possibilidades:
 
 <br>
 Esse sistema foi desenvolvido pensando na experiência do usuário, com variadas opções para entrar no sistema, porém sempre respeitando a regra da aplicação.
-
+<br>
 Muito obrigado !
